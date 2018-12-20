@@ -97,7 +97,8 @@ class Travailleur{
 ```
 /*@
 predicate travailleur(Travailleur travailleur;int temps_dispo, int salaire_horaire, int salaire_percu) = 
-	  travailleur.temps_dispo |-> temps_dispo &*& travailleur.salaire_horaire |-> salaire_horaire &*& travailleur.salaire_percu |-> salaire_percu &*&
+	  travailleur.temps_dispo |-> temps_dispo &*& travailleur.salaire_horaire |-> salaire_horaire &*& 
+	  travailleur.salaire_percu |-> salaire_percu &*&
 	  temps_dispo>=0 &*& 
 	  salaire_horaire >= 0 &*& 
 	  salaire_percu>=0;
@@ -185,10 +186,130 @@ public int travailler(int t)
 répondre à question
 
 ### Question 7
+```
+class Usine{
+	
+	private int balance;
+	
+	public Usine(int depot_initial)	{
+		this.balance = depot_initial;
+	}
+	
+	public int get_balance(){
+		return this.balance;
+	}
+	
+	public void depose_argent(int argent){
+		this.balance += argent;
+	}
+}
+```
 
+### Question 8
+```
+/*@
+predicate usine(Usine usine;int balance) = usine.balance |-> balance;
+@*/
+class Usine
+{
+	private int balance;
+	
+	public Usine(int depot_initial)
+	//@requires depot_initial>=0;
+	//@ensures usine(this, depot_initial);
+	{
+		this.balance = depot_initial;
+	}
+	
+	public int get_balance()
+	//@requires usine(this, ?balance);
+	//@ensures usine(this, balance) &*& result == balance;
+	{
+		return this.balance;
+	}
+	
+	public void depose_argent(int argent)
+	//@requires usine(this, ?balance);
+	//@ensures usine(this, balance+argent);
+	{
+		this.balance += argent;
+	}
+}
+```
 
-
-
+### Question 9 
+```
+public void effectuer_tache(Tache tache,Travailleur travailleur)
+	/*@requires usine(this, ?balance) &*& 
+		    tache(tache, ?temps_necessaire, ?gain) &*& 
+		    travailleur(travailleur, ?temps_dispo, ?salaire_horaire, ?salaire_percu) &*& 
+		    temps_dispo >= temps_necessaire &*&
+		    salaire_percu + (temps_necessaire * salaire_horaire)>=0;
+	@*/
+	/*@ensures usine(this, balance-salaire_horaire * temps_necessaire+gain) &*&
+		   travailleur(travailleur, temps_dispo-temps_necessaire, salaire_horaire, salaire_percu + salaire_horaire*temps_necessaire) &*&
+		   tache(tache, temps_necessaire, gain); 
+	@*/
+	{
+		//@open tache(tache,_,_);
+		//@open travailleur(travailleur,_,_,_);
+		int salaire = travailleur.travailler(tache.get_temps_necessaire());
+		this.balance = this.balance - salaire;
+		this.balance = this.balance + tache.get_gain();
+	}
+```	
+### Question 10
+```
+class UsineTest
+{
+	public static void main(String args[])
+	//@requires true;
+	//@ensures true;	
+	{
+		
+		/*---------------    Test pour Tache    ---------------*/
+		
+		Tache task = new Tache(1, 100);
+		int tn = task.get_temps_necessaire();
+		int gain = task.get_gain();
+		
+		assert ( tn == 1 );
+		assert ( gain == 100 );
+		
+		/*--------------- Test pour Travailleur ---------------*/
+		
+		Travailleur worker = new Travailleur(35, 15);
+		int td = worker.get_temps_dispo(); 
+		int sh = worker.get_salaire_horaire();
+		int sp = worker.get_salaire_percu();
+		
+		assert ( td == 35 );
+		assert ( sh == 15 );
+		assert ( sp == 0 );
+		
+		worker.travailler(1);
+		sp = worker.get_salaire_percu();
+		
+		assert ( sp == 15 );
+		
+		
+		/*---------------    Test pour Usine    ---------------*/
+		
+		Usine factory = new Usine(4000);
+		int b = factory.get_balance(); 
+		
+		assert ( b == 4000 );
+		factory.depose_argent(1000);
+		b = factory.get_balance();
+		assert ( b == 5000 );
+		
+		factory.effectuer_tache(task, worker);
+		b = factory.get_balance();
+		assert ( b == 5085 );
+					
+	}
+}
+```
 
 
 
