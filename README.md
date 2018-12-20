@@ -463,15 +463,11 @@ Voici les specifications pour effectuer_tache avant modification:
 		    salaire_percu + (temps_necessaire * salaire_horaire)>=0;
 	@*/
 	/*@ensures (gain > (temps_necessaire * salaire_horaire) ? 
-			usine(this, gainU+gain, depense+(temps_necessaire*salaire_horaire)) 
-			: 
-			usine(this, gainU, depense))
-		&*&
+		    usine(this, gainU+gain, depense+(temps_necessaire*salaire_horaire)) : usine(this, gainU, depense))	&*&
 		   	(gain > (temps_necessaire * salaire_horaire) ? 
-		   		travailleur(travailleur, temps_dispo-temps_necessaire, salaire_horaire, salaire_percu + salaire_horaire*temps_necessaire)
-		   		: 
-		   		travailleur(travailleur, temps_dispo, salaire_horaire, salaire_percu))
-		&*& tache(tache, temps_necessaire, gain);
+		   	travailleur(travailleur, temps_dispo-temps_necessaire, salaire_horaire, salaire_percu + salaire_horaire*temps_necessaire)
+		   	:  travailleur(travailleur, temps_dispo, salaire_horaire, salaire_percu)) &*& 
+			tache(tache, temps_necessaire, gain);
 	@*/
 ```
 
@@ -488,14 +484,10 @@ on a alors:
 		    salaire_percu + (temps_necessaire * salaire_horaire)>=0;
 	@*/
 	/*@ensures (gain > (temps_necessaire * salaire_horaire) ? 
-			usine(this, gainU+gain, depense+(temps_necessaire*salaire_horaire)) 
-			: 
-			usine(this, gainU, depense))
-		&*&
+			usine(this, gainU+gain, depense+(temps_necessaire*salaire_horaire)) : usine(this, gainU, depense)) &*&
 		   	(gain > (temps_necessaire * salaire_horaire) ? 
-		   		travailleur(travailleur, temps_dispo-temps_necessaire, salaire_horaire, salaire_percu + salaire_horaire*temps_necessaire)
-		   		: 
-		   		travailleur(travailleur, temps_dispo, salaire_horaire, salaire_percu));
+		   	travailleur(travailleur, temps_dispo-temps_necessaire, salaire_horaire, salaire_percu + salaire_horaire*temps_necessaire)
+		   	: travailleur(travailleur, temps_dispo, salaire_horaire, salaire_percu));
 		// &*& tache(tache, temps_necessaire, gain);
 	@*/
 ```
