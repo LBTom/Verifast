@@ -448,8 +448,54 @@ class Usine
 	}
 ```
 
+### Question 14
 
+Comment eviter de pouvoir utiliser plusieurs fois la même tache
 
+Voici les specifications pour effectuer_tache avant modification:
 
+```
+	public void effectuer_tache(Tache tache,Travailleur travailleur)
+	/*@ requires usine(this,?gainU,?depense) &*& 
+		    tache(tache, ?temps_necessaire, ?gain) &*& 
+		    travailleur(travailleur, ?temps_dispo, ?salaire_horaire, ?salaire_percu) &*& 
+		    temps_dispo >= temps_necessaire &*&
+		    salaire_percu + (temps_necessaire * salaire_horaire)>=0;
+	@*/
+	/*@ensures (gain > (temps_necessaire * salaire_horaire) ? 
+			usine(this, gainU+gain, depense+(temps_necessaire*salaire_horaire)) 
+			: 
+			usine(this, gainU, depense))
+		&*&
+		   	(gain > (temps_necessaire * salaire_horaire) ? 
+		   		travailleur(travailleur, temps_dispo-temps_necessaire, salaire_horaire, salaire_percu + salaire_horaire*temps_necessaire)
+		   		: 
+		   		travailleur(travailleur, temps_dispo, salaire_horaire, salaire_percu))
+		&*& tache(tache, temps_necessaire, gain);
+	@*/
+```
 
+Si dans les post-conditions on retire tache(tache,temps_necessaire,gain) verifast empêchera l'utilisation de cette tache une seconde fois.
 
+on a alors:
+
+```
+	public void effectuer_tache(Tache tache,Travailleur travailleur)
+	/*@ requires usine(this,?gainU,?depense) &*& 
+		    tache(tache, ?temps_necessaire, ?gain) &*& 
+		    travailleur(travailleur, ?temps_dispo, ?salaire_horaire, ?salaire_percu) &*& 
+		    temps_dispo >= temps_necessaire &*&
+		    salaire_percu + (temps_necessaire * salaire_horaire)>=0;
+	@*/
+	/*@ensures (gain > (temps_necessaire * salaire_horaire) ? 
+			usine(this, gainU+gain, depense+(temps_necessaire*salaire_horaire)) 
+			: 
+			usine(this, gainU, depense))
+		&*&
+		   	(gain > (temps_necessaire * salaire_horaire) ? 
+		   		travailleur(travailleur, temps_dispo-temps_necessaire, salaire_horaire, salaire_percu + salaire_horaire*temps_necessaire)
+		   		: 
+		   		travailleur(travailleur, temps_dispo, salaire_horaire, salaire_percu));
+		// &*& tache(tache, temps_necessaire, gain);
+	@*/
+```
