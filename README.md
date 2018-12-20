@@ -185,8 +185,8 @@ public int travailler(int t)
 
 ### Question 6 
 
-
-répondre à question
+Pour remplacer le champs *salaire_percu* par un autre champs qui est *temps_travaille* avec lequel ont peut calculer le salaire perçu mais tout en gardant le prédicat de la forme "*travailleur(Travailleur travailleur; int temps_dispo; int salaire_horaire; int salaire_percu)*" il est nécessaire de le calculer dans la définition du prédicat.
+Ensuite les modifications dans la définition même de la classe *Travailleur* il suffit de remplacer *salaire_percu* par *temps_travaille * salaire_horaire* 
 
 ### Question 7
 ```
