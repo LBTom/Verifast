@@ -491,3 +491,4 @@ on a alors:
 		// &*& tache(tache, temps_necessaire, gain);
 	@*/
 ```
+Maintenant si on essaye d'utiliser 2 fois la même tâche verifast lève une erreur mémoire.
