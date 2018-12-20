@@ -1,10 +1,16 @@
 # Projet Verifast
 
+
+
 ## Logique de Séparation avec Verifast
+
+
 
 ## Auteurs
 - Tom LE BERRE
 - Nicolas VANNIER
+
+
 
 
 ### Question 1
@@ -28,6 +34,8 @@ class Tache{
 	}
 } 
 ```
+
+
 
 ### Question 2
 ```  
@@ -68,6 +76,7 @@ class Tache
 }
 ```  
 
+
 ### Question 3
 ```  
 
@@ -96,6 +105,9 @@ class Travailleur{
 	}
 }
 ```  
+
+
+
 ### Question 4
 ```
 /*@
@@ -161,7 +173,9 @@ class Travailleur
 	}
 }
 
-```  
+``` 
+
+
 
 ### Question 5
 
@@ -183,11 +197,15 @@ public int travailler(int t)
 	
 ```  
 
+
+
 ### Question 6 
 
 Pour remplacer le champs *salaire_percu* par un autre champs qui est *temps_travaille* avec lequel ont peut calculer le salaire perçu mais tout en gardant le prédicat de la forme "*travailleur(Travailleur travailleur; int temps_dispo; int salaire_horaire; int salaire_percu)*" il est nécessaire de le calculer dans la définition du prédicat.
 Ensuite les modifications dans la définition même de la classe *Travailleur* il suffit de remplacer *salaire_percu* par *temps_travaille * salaire_horaire* dans la méthode *get_salaire_percu* puis à chaque fois que l'on a besoin de *salaire_percu* il suffit d'utiliser son getter.
 De cette manière nous n'avons pas besoins de changer le reste de la spécification de la classe *Travailleur*.
+
+
 
 
 ### Question 7
@@ -209,6 +227,8 @@ class Usine{
 	}
 }
 ```
+
+
 
 ### Question 8
 ```
@@ -242,6 +262,8 @@ class Usine
 }
 ```
 
+
+
 ### Question 9 
 
 ```
@@ -264,6 +286,10 @@ public void effectuer_tache(Tache tache,Travailleur travailleur)
 		this.balance = this.balance + tache.get_gain();
 	}
 ```	
+
+
+
+
 ### Question 10
 ```
 class UsineTest
@@ -317,9 +343,15 @@ class UsineTest
 }
 ```
 
+
+
+
 ### Question 11
 
 Nous avions déjà préalablement spécifié que temps_dispo de la classe Travailleur comme étant une variable positif ou nul car nous pensions qu'il est naturellement impossible d'avoir un temps de diponibilité négatif. C'est pourquoi nous n'avons eu aucune difficulté pour la suite avec notre programme puique ces potentielles difficultées ont déjà été régler par précédemment.
+
+
+
 
 ### Question 12
 
@@ -370,6 +402,9 @@ public boolean effectuer_tache(Tache tache,Travailleur travailleur)
 	}
 
 ```
+
+
+
 
 ### Question 13
 
@@ -453,6 +488,9 @@ class Usine
 	}
 ```
 
+
+
+
 ### Question 14
 
 Comment eviter de pouvoir utiliser plusieurs fois la même tache
@@ -497,6 +535,9 @@ on a alors:
 	@*/
 ```
 Maintenant si on essaye d'utiliser 2 fois la même tâche verifast lève une erreur mémoire, en effet l'état mémoire de la tache n'est plus precisé en post-condition, verifast refuse donc d'y accéder à nouveau.
+
+
+
 
 ### Question 15
 
@@ -544,6 +585,8 @@ Dans les pré-conditions de la méthode effectuer_tache on vérifie simplement s
 
 Il n'est pas possible de contourner cette garantie avec le code actuel, la seule façon de valider le prédicat estEmbauche est de passer par la méthode embaucher.
 
+
+
 ### Question 16
 
 On ajoute la méthode licencier:
@@ -560,6 +603,8 @@ public void licencier(Travailleur travailleur)
 ```
 
 en post-condition le prédicat estEmbauche n'est plus valide pour le travailleur concerné, ainsi on ne peut plus l'utiliser dans effectuer_tache.
+
+
 
 ### Question 17
 
