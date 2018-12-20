@@ -474,7 +474,7 @@ Voici les specifications pour effectuer_tache avant modification:
 	@*/
 ```
 
-Si dans les post-conditions on retire tache(tache,temps_necessaire,gain) verifast empêchera l'utilisation de cette tache une seconde fois.
+Si dans les post-conditions on retire *tache(tache,temps_necessaire,gain)* verifast empêchera l'utilisation de cette tache une seconde fois.
 
 on a alors:
 
@@ -538,9 +538,9 @@ public void effectuer_tache(Tache tache,Travailleur travailleur)
 ```
 Si on tente d'appeler effectuer_tache avec un travailleur sans utiliser embaucher sur celui-ci on obtient une erreur "No matching heap chunks: estEmbauche...".
 
-Dans les pré-conditions de la méthode effectuer_tache on vérifie simplement si le prédicat estEmbauche est valide, il ne sera pas valide s'il n'a pas été ouvert précédemment, en revanche si on utilise la méthode embaucher le prédicat a été ouvert pour cette usine et ce travailleur et il est donc valide,en effet on retrouve en post-condition de la méthode embaucher "estEmbauche(this,travailleur)".
+Dans les pré-conditions de la méthode effectuer_tache on vérifie simplement si le prédicat estEmbauche est valide, il ne sera pas valide s'il n'a pas été ouvert précédemment, en revanche si on utilise la méthode embaucher le prédicat a été ouvert pour cette usine et ce travailleur et il est donc valide,en effet on retrouve en post-condition de la méthode embaucher *"estEmbauche(this,travailleur)"*.
 
-Il n'est pas possible de contourner cette garantie avec le code actuel, la seule façon de valider le prédicat estEmbauche est de passer par la méthode embaucher.
+Il n'est pas possible de contourner cette garantie avec le code actuel, la seule façon de valider le prédicat *estEmbauche* est de passer par la méthode embaucher.
 
 ### Question 16
 
@@ -557,7 +557,7 @@ public void licencier(Travailleur travailleur)
 	}
 ```
 
-en post-condition le prédicat estEmbauche n'est plus valide pour le travailleur concerné, ainsi on ne peut plus l'utiliser dans effectuer_tache.
+en post-condition le prédicat *estEmbauche* n'est plus valide pour le travailleur concerné, ainsi on ne peut plus l'utiliser dans *effectuer_tache*.
 
 ### Question 17
 
@@ -573,4 +573,4 @@ On effectue le test suivant:
 ```
 Verifast leve une erreur "cannot prove condition" cf "temps_dispo >= temps_necessaire"
 
-On en déduit que sans modification du code un on ne peut pas appeler effectuer_tache sur un travailleur si son temps disponible a atteint 0.
+On en déduit que sans modification du code un on ne peut pas appeler *effectuer_tache* sur un travailleur si son temps disponible a atteint 0.
