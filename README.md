@@ -492,3 +492,49 @@ on a alors:
 	@*/
 ```
 Maintenant si on essaye d'utiliser 2 fois la même tâche verifast lève une erreur mémoire, en effet l'état mémoire de la tache n'est plus precisé en post-condition, verifast refuse donc d'y accéder à nouveau.
+
+### Question 15
+
+Modifications:
+
+```
+public void effectuer_tache(Tache tache,Travailleur travailleur)
+	/*@ requires usine(this,?gainU,?depense) &*& 
+		    tache(tache, ?temps_necessaire, ?gain) &*& 
+		    travailleur(travailleur, ?temps_dispo, ?salaire_horaire, ?salaire_percu) &*& 
+		    temps_dispo >= temps_necessaire &*&
+		    salaire_percu + (temps_necessaire * salaire_horaire)>=0 &*&
+		    estEmbauche(this,travailleur);
+	@*/
+	/*@ensures (gain > (temps_necessaire * salaire_horaire) ? 
+			usine(this, gainU+gain, depense+(temps_necessaire*salaire_horaire)) 
+			: 
+			usine(this, gainU, depense))
+		&*&
+		   	(gain > (temps_necessaire * salaire_horaire) ? 
+		   		travailleur(travailleur, temps_dispo-temps_necessaire, salaire_horaire, salaire_percu + salaire_horaire*temps_necessaire)
+		   		: 
+		   		travailleur(travailleur, temps_dispo, salaire_horaire, salaire_percu))
+		// &*& tache(tache, temps_necessaire, gain);
+		&*&
+		estEmbauche(this,travailleur);
+	@*/
+	{
+		if(est_rentable( tache, travailleur)){
+			//@open tache(tache,_,_);
+			//@open travailleur(travailleur,_,_,_);
+			int salaire = travailleur.travailler(tache.get_temps_necessaire());
+			this.depense += salaire;
+			this.gain += tache.get_gain();
+			//@close tache(tache,_,_);
+			//@close travailleur(travailleur,_,_,_);
+		}
+		
+	}
+	
+```
+Si on tente d'appeler effectuer_tache avec un travailleur sans utiliser embaucher sur celui-ci on obtient une erreur "No matching heap chunks: estEmbauche...".
+
+Dans les pré-conditions de la méthode effectuer_tache on vérifie simplement si le prédicat estEmbauche est valide, il ne sera pas valide s'il n'a pas été ouvert précédemment, en revanche si on utilise la méthode embaucher le prédicat a été ouvert pour cette usine et ce travailleur et il est donc valide,en effet on retrouve en post-condition de la méthode embaucher "estEmbauche(this,travailleur)".
+
+Il n'est pas possible de contourner cette garantie avec le code actuel, la seule façon de valider le prédicat estEmbauche est de passer par la méthode embaucher.
