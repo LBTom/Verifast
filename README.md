@@ -491,4 +491,4 @@ on a alors:
 		// &*& tache(tache, temps_necessaire, gain);
 	@*/
 ```
-Maintenant si on essaye d'utiliser 2 fois la même tâche verifast lève une erreur mémoire.
+Maintenant si on essaye d'utiliser 2 fois la même tâche verifast lève une erreur mémoire, en effet l'état mémoire de la tache n'est plus precisé en post-condition, verifast refuse donc d'y accéder à nouveau.
