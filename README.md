@@ -1,4 +1,7 @@
 # Projet Verifast
+
+## Logique de Séparation avec Verifast
+
 ## Auteurs
 - Tom LE BERRE
 - Nicolas VANNIER
