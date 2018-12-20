@@ -408,7 +408,7 @@ public boolean effectuer_tache(Tache tache,Travailleur travailleur)
 
 ### Question 13
 
-Explication ajout de gain, depense
+Pour cette question nous avons supprimé le champs *balance* pour le séparer en deux nouveaux champs *gain* et *depense*, ce permet d'avoir d'avantages d'informations que le seul champs *balance*. La première chose que nous avons fait est de modifié les attributs de la classe et le prédicat de la classe pour l'adapter à sa nouvelle implementation. Pour la suite nous avons lancé la vérification et regarder la où il y avait un problème pour corriger ces nouvelles erreurs générées par cette nouvelle implémentation et réitéreer la manoeuvre jusqu'à corriger tout les soucis.
 
 ```
 /*@
