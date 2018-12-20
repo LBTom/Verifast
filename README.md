@@ -555,3 +555,19 @@ public void licencier(Travailleur travailleur)
 ```
 
 en post-condition le prédicat estEmbauche n'est plus valide pour le travailleur concerné, ainsi on ne peut plus l'utiliser dans effectuer_tache.
+
+### Question 17
+
+On effectue le test suivant:
+
+```
+		Travailleur worker2 = new Travailleur(1,10);
+		Tache task4 = new Tache(1,100);
+		factory.embaucher(worker2);
+		factory.effectuer_tache(task4,worker2);
+		Tache task5 = new Tache(1,100);
+		factory.effectuer_tache(task5,worker2);
+```
+Verifast leve une erreur "cannot prove condition" cf "temps_dispo >= temps_necessaire"
+
+On en déduit que sans modification du code un on ne peut pas appeler effectuer_tache sur un travailleur si son temps disponible a atteint 0.
