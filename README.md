@@ -366,6 +366,88 @@ public boolean effectuer_tache(Tache tache,Travailleur travailleur)
 
 ```
 
+### Question 13
+
+Explication ajout de gain, depense
+
+```
+/*@
+predicate usine(Usine usine; int gain, int depense) = usine.gain |-> gain &*&
+usine.depense |-> depense;
+@*/
+class Usine
+{
+	private int gain;
+ 	private int depense;
+	
+	public Usine(int depot_initial)
+	//@requires true;
+	//@ensures usine(this, depot_initial , 0);
+	{
+		this.gain = depot_initial;
+  		this.depense = 0;
+	}
+	
+	 public int get_gain()
+ 	//@ requires usine(this,?g,?d);
+ 	//@ ensures usine(this,g,d) &*& result == g;
+ 	{
+  		return gain;
+ 	}
+
+ 	public int get_depense()
+ 	//@ requires usine(this,?g,?d);
+	//@ ensures usine(this,g,d) &*& result == d;
+ 	{
+ 		return depense;
+ 	}
+	
+	public int get_balance()
+	//@ requires usine(this,?gain,?depense);
+ 	//@ ensures usine(this,gain,depense) &*& result == (gain - depense);
+	{	
+ 	 	return (this.gain - this.depense);
+ 	}
+	
+	public void depose_argent(int argent)
+	//@ requires usine(this,?gain,?depense);
+	//@ensures (argent > 0) ? usine(this, gain + argent, depense) : usine(this, gain, depense - argent);
+	{
+		if(argent>0)
+			this.gain += argent;
+		else
+			this.depense -= argent;
+	}
+	
+	public boolean effectuer_tache(Tache tache,Travailleur travailleur)
+	/*@ requires usine(this,?gainU,?depense) &*& 
+		    tache(tache, ?temps_necessaire, ?gain) &*& 
+		    travailleur(travailleur, ?temps_dispo, ?salaire_horaire, ?salaire_percu) &*& 
+		    temps_dispo >= temps_necessaire &*&
+		    salaire_percu + (temps_necessaire * salaire_horaire)>=0;
+	@*/
+	/*@ensures gain > (temps_necessaire * salaire_horaire) ? usine(this, gainU+gain, depense+(temps_necessaire*salaire_horaire)) : usine(this, gainU, depense) &*&
+		   gain > (temps_necessaire * salaire_horaire) ? travailleur(travailleur, temps_dispo-temps_necessaire, salaire_horaire, salaire_percu + salaire_horaire*temps_necessaire)
+		   						 : travailleur(travailleur, temps_dispo, salaire_horaire, salaire_percu) &*&
+		   tache(tache, temps_necessaire, gain); 
+	@*/
+	{
+		if(est_rentable( tache, travailleur)){
+			//@open tache(tache,_,_);
+			//@open travailleur(travailleur,_,_,_);
+			int salaire = travailleur.travailler(tache.get_temps_necessaire());
+			this.depense += salaire;
+			this.gain += tache.get_gain();
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+		
+	}
+```
+
 
 
 
