@@ -185,8 +185,8 @@ public int travailler(int t)
 
 ### Question 6 
 
-Pour remplacer le champs *salaire_percu* par un autre champs qui est *temps_travaille* avec lequel ont peut calculer le salaire perçu mais tout en gardant le prédicat de la forme "*travailleur(Travailleur travailleur; int temps_dispo; int salaire_horaire; int salaire_percu)*" il est nécessaire de le calculer dans la définition du prédicat.
-Ensuite les modifications dans la définition même de la classe *Travailleur* il suffit de remplacer *salaire_percu* par *temps_travaille * salaire_horaire* 
+
+répondre à question
 
 ### Question 7
 ```
@@ -474,7 +474,7 @@ Voici les specifications pour effectuer_tache avant modification:
 	@*/
 ```
 
-Si dans les post-conditions on retire *tache(tache,temps_necessaire,gain)* verifast empêchera l'utilisation de cette tache une seconde fois.
+Si dans les post-conditions on retire tache(tache,temps_necessaire,gain) verifast empêchera l'utilisation de cette tache une seconde fois.
 
 on a alors:
 
@@ -538,9 +538,9 @@ public void effectuer_tache(Tache tache,Travailleur travailleur)
 ```
 Si on tente d'appeler effectuer_tache avec un travailleur sans utiliser embaucher sur celui-ci on obtient une erreur "No matching heap chunks: estEmbauche...".
 
-Dans les pré-conditions de la méthode effectuer_tache on vérifie simplement si le prédicat estEmbauche est valide, il ne sera pas valide s'il n'a pas été ouvert précédemment, en revanche si on utilise la méthode embaucher le prédicat a été ouvert pour cette usine et ce travailleur et il est donc valide,en effet on retrouve en post-condition de la méthode embaucher *"estEmbauche(this,travailleur)"*.
+Dans les pré-conditions de la méthode effectuer_tache on vérifie simplement si le prédicat estEmbauche est valide, il ne sera pas valide s'il n'a pas été ouvert précédemment, en revanche si on utilise la méthode embaucher le prédicat a été ouvert pour cette usine et ce travailleur et il est donc valide,en effet on retrouve en post-condition de la méthode embaucher "estEmbauche(this,travailleur)".
 
-Il n'est pas possible de contourner cette garantie avec le code actuel, la seule façon de valider le prédicat *estEmbauche* est de passer par la méthode embaucher.
+Il n'est pas possible de contourner cette garantie avec le code actuel, la seule façon de valider le prédicat estEmbauche est de passer par la méthode embaucher.
 
 ### Question 16
 
@@ -557,7 +557,7 @@ public void licencier(Travailleur travailleur)
 	}
 ```
 
-en post-condition le prédicat *estEmbauche* n'est plus valide pour le travailleur concerné, ainsi on ne peut plus l'utiliser dans *effectuer_tache*.
+en post-condition le prédicat estEmbauche n'est plus valide pour le travailleur concerné, ainsi on ne peut plus l'utiliser dans effectuer_tache.
 
 ### Question 17
 
@@ -573,4 +573,15 @@ On effectue le test suivant:
 ```
 Verifast leve une erreur "cannot prove condition" cf "temps_dispo >= temps_necessaire"
 
-On en déduit que sans modification du code un on ne peut pas appeler *effectuer_tache* sur un travailleur si son temps disponible a atteint 0.
+On en déduit que sans modification du code un on ne peut pas appeler effectuer_tache sur un travailleur si son temps disponible a atteint 0.
+
+### Question 18
+
+Verifast nous permet de vérifier dans la classe Usine que:
+
+- les dépots et retraits d'argent sont cohérents ( pas d'erreur de calcul )
+- les tâches sont effectuées par un travailleur embauché dont le temps disponible est suffisant
+
+Si on avait dû faire ces vérifications directement dans le code source on aurait ajouté des méthodes de vérification mais il aurait été plus compliqué d'être certain que ces méthodes soient efficaces car contrairement à une vérification avec Verifast qui a lieu sur les méthodes entières une vérification dans le code source doit elle-même être executée.
+
+Le moment d'execution d'une méthode de vérification peut changer son sens, c'est donc moins efficace qu'avec Verifast.
