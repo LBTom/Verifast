@@ -1,7 +1,7 @@
 # Projet Verifast
-## Auteur
-Tom LE BERRE
-Nicolas VANNIER
+## Auteurs
+- Tom LE BERRE
+- Nicolas VANNIER
 
 
 ### Question 1
