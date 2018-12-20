@@ -314,7 +314,7 @@ class UsineTest
 
 ### Question 11
 
-Nous avions déjà préalablement spécifié que temps_dispo de la classe Travailleur est positif ou nul par conséquent nous n'avons eu aucune difficulté par la suite avec notre programme.
+Nous avions déjà préalablement spécifié que temps_dispo de la classe Travailleur comme étant une variable positif ou nul car nous pensions qu'il est naturellement impossible d'avoir un temps de diponibilité négatif. C'est pourquoi nous n'avons eu aucune difficulté pour la suite avec notre programme puique ces potentielles difficultées ont déjà été régler par précédemment.
 
 ### Question 12
 
