@@ -538,3 +538,20 @@ Si on tente d'appeler effectuer_tache avec un travailleur sans utiliser embauche
 Dans les pré-conditions de la méthode effectuer_tache on vérifie simplement si le prédicat estEmbauche est valide, il ne sera pas valide s'il n'a pas été ouvert précédemment, en revanche si on utilise la méthode embaucher le prédicat a été ouvert pour cette usine et ce travailleur et il est donc valide,en effet on retrouve en post-condition de la méthode embaucher "estEmbauche(this,travailleur)".
 
 Il n'est pas possible de contourner cette garantie avec le code actuel, la seule façon de valider le prédicat estEmbauche est de passer par la méthode embaucher.
+
+### Question 16
+
+On ajoute la méthode licencier:
+
+```
+public void licencier(Travailleur travailleur)
+		/*@ requires travailleur(travailleur,?temps_dispo,?salaire_horaire,
+		?salaire_percu) &*&
+		estEmbauche(this,travailleur);@*/
+	/*@ ensures travailleur(travailleur,temps_dispo,salaire_horaire,salaire_percu);@*/
+	{
+		//@close estEmbauche(this,travailleur);
+	}
+```
+
+en post-condition le prédicat estEmbauche n'est plus valide pour le travailleur concerné, ainsi on ne peut plus l'utiliser dans effectuer_tache.
