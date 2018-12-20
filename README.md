@@ -238,6 +238,7 @@ class Usine
 ```
 
 ### Question 9 
+
 ```
 public void effectuer_tache(Tache tache,Travailleur travailleur)
 	/*@requires usine(this, ?balance) &*& 
@@ -310,6 +311,61 @@ class UsineTest
 	}
 }
 ```
+
+### Question 11
+
+Nous avions déjà préalablement spécifié que temps_dispo de la classe Travailleur est positif ou nul par conséquent nous n'avons eu aucune difficulté par la suite avec notre programme.
+
+### Question 12
+
+```
+public static boolean est_rentable(Tache tache,Travailleur travailleur)
+/*@requires tache(tache, ?temps_necessaire, ?gain) &*& 
+	    travailleur(travailleur, ?temps_dispo, ?salaire_horaire, ?salaire_percu);
+@*/
+/*@ensures  tache(tache, temps_necessaire, gain) &*&
+	    travailleur(travailleur, temps_dispo, salaire_horaire, salaire_percu) &*&
+	    result == (gain > (temps_necessaire*salaire_horaire) ? true : false);
+@*/
+{
+	//@open tache(tache,_,_);
+	//@open travailleur(travailleur,_,_,_);
+	return (tache.get_gain() > (tache.get_temps_necessaire() * travailleur.get_salaire_horaire()));
+}
+
+
+public boolean effectuer_tache(Tache tache,Travailleur travailleur)
+	/*@requires usine(this, ?balance) &*& 
+		    tache(tache, ?temps_necessaire, ?gain) &*& 
+		    travailleur(travailleur, ?temps_dispo, ?salaire_horaire, ?salaire_percu) &*& 
+		    temps_dispo >= temps_necessaire &*&
+		    salaire_percu + (temps_necessaire * salaire_horaire)>=0;
+	@*/
+	/*@ensures gain > (temps_necessaire * salaire_horaire) ? 
+		   usine(this, balance-salaire_horaire * temps_necessaire+gain) : usine(this, balance) &*&
+		   gain > (temps_necessaire * salaire_horaire) ?
+		   travailleur(travailleur, temps_dispo-temps_necessaire, salaire_horaire, salaire_percu + salaire_horaire*temps_necessaire)
+		   : travailleur(travailleur, temps_dispo, salaire_horaire, salaire_percu) &*&
+		   tache(tache, temps_necessaire, gain); 
+	@*/
+	{
+		if(est_rentable( tache, travailleur)){
+			//@open tache(tache,_,_);
+			//@open travailleur(travailleur,_,_,_);
+			int salaire = travailleur.travailler(tache.get_temps_necessaire());
+			this.balance = this.balance - salaire;
+			this.balance = this.balance + tache.get_gain();
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+		
+	}
+
+```
+
 
 
 
